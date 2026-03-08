@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIER – Panel de Análisis Energético Regional 2024</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #F5F5F5; color: #1f2937; }
+        .chart-container  { position:relative; width:100%; height:420px; }
+        .small-chart-container { position:relative; width:100%; height:260px; }
+        .kpi-card { background:#fff; border:1px solid #e5e7eb; border-radius:0.75rem;
+                    box-shadow:0 2px 8px rgba(0,0,0,.07); transition:transform .2s,box-shadow .2s; }
+        .kpi-card:hover { transform:translateY(-4px); box-shadow:0 8px 20px rgba(0,0,0,.12); }
+        .nav-link { transition:color .25s; }
+        .nav-link:hover { color:#4169E1; }
+        .modal-bg { background:rgba(0,0,0,.55); }
+        .section-card { background:#fff; border-radius:0.75rem; box-shadow:0 2px 8px rgba(0,0,0,.07); }
+        .badge { display:inline-block; padding:2px 10px; border-radius:9999px; font-size:.75rem; font-weight:600; }
+    
+        .exec-cards-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
+        @media (max-width: 900px) { .exec-cards-grid { grid-template-columns: 1fr; } }
+        
+        .destaques-grid { grid-template-columns: 1fr 1fr; }
+        @media (max-width: 800px) { .destaques-grid { grid-template-columns: 1fr; } }
+        
+        .gen-cont-grid { grid-template-columns: 1fr 1fr; }
+        @media (max-width: 800px) { .gen-cont-grid { grid-template-columns: 1fr; } .perdidas-kpi-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 500px) { .perdidas-kpi-grid { grid-template-columns: 1fr; } }
+        </style>
+</head>
+<body class="antialiased">
+
+<!-- ── NAV ── -->
+<header class="bg-white/90 backdrop-blur-md sticky top-0 z-30 shadow-sm">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <span class="font-bold text-lg" style="color:#4169E1">CIER · Análisis Energético Regional</span>
+            <div class="hidden md:flex items-center space-x-2 text-sm font-medium text-gray-600">
+                <a href="#panorama"  class="nav-link px-3 py-1.5 rounded-md">Panorama General</a>
+                <a href="#renovables" class="nav-link px-3 py-1.5 rounded-md">Renovables</a>
+                <a href="#perdidas"  class="nav-link px-3 py-1.5 rounded-md">Pérdidas</a>
+                <a href="#contexto"  class="nav-link px-3 py-1.5 rounded-md">Contexto</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+
+<!-- ══════════════════════════════════════════
+     SECCIÓN 1 · PANORAMA GENERAL
+══════════════════════════════════════════ -->
+<section id="panorama" class="mb-16">
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-0">Panel Interactivo de Análisis Energético Regional</h1>
+    <p class="text-xs text-gray-400 font-medium mt-1 mb-1">Coordinación Internacional · Área Corporativa CIER</p>
+    <p class="text-base text-gray-500 mb-6">Tendencias en generación, capacidad y eficiencia · MUNDO y CSAM (Sudamérica, Centroamérica y el Caribe) · 2014–2024 · Fuente: US EIA</p>
+
+    <!-- ═══ 3 TARJETAS EJECUTIVAS: CAPACIDAD INSTALADA ═══ -->
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:32px;" class="exec-cards-grid">
+
+      <!-- MUNDO -->
+      <div class="kpi-card" style="padding:0;overflow:hidden;border-top:5px solid #4169E1;">
+        <div style="padding:18px 18px 14px;border-bottom:1px solid #f3f4f6;">
+          <p style="font-size:10px;font-weight:700;letter-spacing:2px;color:#4169E1;text-transform:uppercase;margin-bottom:6px;">● MUNDO — REFERENCIA GLOBAL</p>
+          <p style="font-size:12px;color:#9ca3af;margin-bottom:14px;">Total mundial — todas las regiones</p>
+          <p style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#9ca3af;margin-bottom:4px;">CAPACIDAD INSTALADA TOTAL</p>
+          <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:12px;">
+            <span style="font-size:52px;font-weight:800;color:#4169E1;letter-spacing:-2px;line-height:1;">9,718</span>
+            <span style="font-size:15px;font-weight:600;color:#6b7280;">M kW</span>
+          </div>
+          <div style="background:rgba(65,105,225,0.07);border:1px solid rgba(65,105,225,0.2);border-radius:7px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;font-size:12px;">
+            <span style="color:#6b7280;">Región líder: Asia &amp; Oceanía</span>
+            <span style="font-weight:600;color:#374151;">5,082 M kW</span>
+            <span style="font-weight:800;font-size:14px;color:#4169E1;">52.3%</span>
+          </div>
+        </div>
+        <div style="padding:14px 18px;border-bottom:1px solid #f3f4f6;">
+          <p style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#9ca3af;margin-bottom:10px;">TASA DE CRECIMIENTO ACUMULATIVO ANUAL (TCAA) — CAPACIDAD TOTAL</p>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+            <div style="background:#f8f7f4;border:1px solid #e5e7eb;border-radius:8px;padding:10px 6px;text-align:center;">
+              <span style="display:inline-block;background:#374151;color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;border-radius:4px;padding:2px 7px;margin-bottom:4px;">10 AÑOS</span>
+              <p style="font-size:10px;color:#9ca3af;margin-bottom:5px;">2014 → 2024</p>
+              <p style="font-size:24px;font-weight:800;color:#16a34a;line-height:1;">+4.8%</p>
+              <p style="font-size:9px;color:#9ca3af;margin-top:3px;">acum. anual</p>
+            </div>
+            <div style="background:#f8f7f4;border:1px solid #e5e7eb;border-radius:8px;padding:10px 6px;text-align:center;">
+              <span style="display:inline-block;background:#374151;color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;border-radius:4px;padding:2px 7px;margin-bottom:4px;">5 AÑOS</span>
+              <p style="font-size:10px;color:#9ca3af;margin-bottom:5px;">2019 → 2024</p>
+              <p style="font-size:24px;font-weight:800;color:#16a34a;line-height:1;">+5.5%</p>
+              <p style="font-size:9px;color:#9ca3af;margin-top:3px;">acum. anual</p>
+            </div>
+            <div style="background:#f8f7f4;border:1px solid #e5e7eb;border-radius:8px;padding:10px 6px;text-align:center;">
+              <span style="display:inline-block;background:#374151;color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;border-radius:4px;padding:2px 7px;margin-bottom:4px;">1 AÑO</span>
+              <p style="font-size:10px;color:#9ca3af;margin-bottom:5px;">2023 → 2024</p>
+              <p style="font-size:24px;font-weight:800;color:#ea580c;line-height:1;">+7.0%</p>
+              <p style="font-size:9px;color:#9ca3af;margin-top:3px;">var. anual</p>
+            </div>
+          </div>
+        </div>
+        <div style="padding:14px 18px;">
+          <p style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#9ca3af;margin-bottom:8px;">MIX DE CAPACIDAD INSTALADA</p>
+          <div style="display:flex;height:10px;border-radius:5px;overflow:hidden;gap:1px;margin-bottom:6px;">
+            <div style="width:12.7%;background:#0284c7;"></div>
+            <div style="width:11.7%;background:#16a34a;"></div>
+            <div style="width:19.2%;background:#ca8a04;"></div>
+            <div style="width:1.6%;background:#0d9488;"></div>
+            <div style="width:3.9%;background:#7c3aed;"></div>
+            <div style="width:48.9%;background:#6b7280;"></div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:10px;color:#6b7280;">
+            <span>● Hidro 12.7%</span><span style="color:#16a34a;">● Eólica 11.7%</span>
+            <span style="color:#ca8a04;">● Solar 19.2%</span><span style="color:#0d9488;">● Otras Ren. 1.6%</span>
+            <span style="color:#7c3aed;">● Nuclear 3.9%</span><span>● Fósil 48.9%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- LATAM -->
+      <div class="kpi-card" style="padding:0;overflow:hidden;border-top:5px solid #d97706;">
+        <div style="padding:18px 18px 14px;border-bottom:1px solid #f3f4f6;">
+          <p style="font-size:10px;font-weight:700;letter-spacing:2px;color:#d97706;text-transform:uppercase;margin-bottom:6px;">● LATAM — AMÉRICA CENTRAL Y DEL SUR</p>
+          <p style="font-size:12px;color:#9ca3af;margin-bottom:14px;">América Central y del Sur (EIA: CSAM)</p>
+          <p style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#9ca3af;margin-bottom:4px;">CAPACIDAD INSTALADA TOTAL</p>
+          <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:12px;">
+            <span style="font-size:52px;font-weight:800;color:#d97706;letter-spacing:-2px;line-height:1;">503</span>
+            <span style="font-size:15px;font-weight:600;color:#6b7280;">M kW</span>
+          </div>
+          <div style="background:rgba(217,119,6,0.07);border:1px solid rgba(217,119,6,0.22);border-radius:7px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;font-size:12px;">
+            <span style="color:#6b7280;">LATAM sobre total mundial</span>
+            <span style="font-weight:600;color:#374151;">9,718 M kW</span>
+            <span style="font-weight:800;font-size:14px;color:#d97706;">5.2%</span>
+          </div>
+        </div>
+        <div style="padding:14px 18px;border-bottom:1px solid #f3f4f6;">
+          <p style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#9ca3af;margin-bottom:10px;">TASA DE CRECIMIENTO ACUMULATIVO ANUAL (TCAA) — CAPACIDAD TOTAL</p>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+            <div style="background:#f8f7f4;border:1px solid #e5e7eb;border-radius:8px;padding:10px 6px;text-align:center;">
+              <span style="display:inline-block;background:#374151;color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;border-radius:4px;padding:2px 7px;margin-bottom:4px;">10 AÑOS</span>
+              <p style="font-size:10px;color:#9ca3af;margin-bottom:5px;">2014 → 2024</p>
+              <p style="font-size:24px;font-weight:800;color:#16a34a;line-height:1;">+4.4%</p>
+              <p style="font-size:9px;color:#9ca3af;margin-top:3px;">acum. anual</p>
+            </div>
+            <div style="background:#f8f7f4;border:1px solid #e5e7eb;border-radius:8px;padding:10px 6px;text-align:center;">
+              <span style="display:inline-block;background:#374151;color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;border-radius:4px;padding:2px 7px;margin-bottom:4px;">5 AÑOS</span>
+              <p style="font-size:10px;color:#9ca3af;margin-bottom:5px;">2019 → 2024</p>
+              <p style="font-size:24px;font-weight:800;color:#16a34a;line-height:1;">+4.7%</p>
+              <p style="font-size:9px;color:#9ca3af;margin-top:3px;">acum. anual</p>
+            </div>
+            <div style="background:#f8f7f4;border:1px solid #e5e7eb;border-radius:8px;padding:10px 6px;text-align:center;">
+              <span style="display:inline-block;background:#374151;color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;border-radius:4px;padding:2px 7px;margin-bottom:4px;">1 AÑO</span>
+              <p style="font-size:10px;color:#9ca3af;margin-bottom:5px;">2023 → 2024</p>
+              <p style="font-size:24px;font-weight:800;color:#ea580c;line-height:1;">+6.4%</p>
+              <p style="font-size:9px;color:#9ca3af;margin-top:3px;">var. anual</p>
+            </div>
+          </div>
+        </div>
+        <div style="padding:14px 18px;">
+          <p style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#9ca3af;margin-bottom:8px;">MIX DE CAPACIDAD INSTALADA</p>
+          <div style="display:flex;height:10px;border-radius:5px;overflow:hidden;gap:1px;margin-bottom:6px;">
+            <div style="width:37.4%;background:#0284c7;"></div>
+            <div style="width:9.4%;background:#16a34a;"></div>
+            <div style="width:14.7%;background:#ca8a04;"></div>
+            <div style="width:4.8%;background:#0d9488;"></div>
+            <div style="width:0.7%;background:#7c3aed;"></div>
+            <div style="width:32.9%;background:#6b7280;"></div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:10px;color:#6b7280;">
+            <span style="color:#0284c7;">● Hidro 37.4%</span><span style="color:#16a34a;">● Eólica 9.4%</span>
+            <span style="color:#ca8a04;">● Solar 14.7%</span><span style="color:#0d9488;">● Otras Ren. 4.8%</span>
+            <span style="color:#7c3aed;">● Nuclear 0.7%</span><span>● Fósil 32.9%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- EUROPA -->
+      <div class="kpi-card" style="padding:0;overflow:hidden;border-top:5px solid #059669;">
+        <div style="padding:18px 18px 14px;border-bottom:1px solid #f3f4f6;">
+          <p style="font-size:10px;font-weight:700;letter-spacing:2px;color:#059669;text-transform:uppercase;margin-bottom:6px;">● EUROPA — REGIÓN DE REFERENCIA</p>
+          <p style="font-size:12px;color:#9ca3af;margin-bottom:14px;">Europa Occidental y del Este (excl. Eurasia)</p>
+          <p style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#9ca3af;margin-bottom:4px;">CAPACIDAD INSTALADA TOTAL</p>
+          <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:12px;">
+            <span style="font-size:52px;font-weight:800;color:#059669;letter-spacing:-2px;line-height:1;">1,536</span>
+            <span style="font-size:15px;font-weight:600;color:#6b7280;">M kW</span>
+          </div>
+          <div style="background:rgba(5,150,105,0.07);border:1px solid rgba(5,150,105,0.22);border-radius:7px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;font-size:12px;">
+            <span style="color:#6b7280;">Europa sobre total mundial</span>
+            <span style="font-weight:600;color:#374151;">9,718 M kW</span>
+            <span style="font-weight:800;font-size:14px;color:#059669;">15.8%</span>
+          </div>
+        </div>
+        <div style="padding:14px 18px;border-bottom:1px solid #f3f4f6;">
+          <p style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#9ca3af;margin-bottom:10px;">TASA DE CRECIMIENTO ACUMULATIVO ANUAL (TCAA) — CAPACIDAD TOTAL</p>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+            <div style="background:#f8f7f4;border:1px solid #e5e7eb;border-radius:8px;padding:10px 6px;text-align:center;">
+              <span style="display:inline-block;background:#374151;color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;border-radius:4px;padding:2px 7px;margin-bottom:4px;">10 AÑOS</span>
+              <p style="font-size:10px;color:#9ca3af;margin-bottom:5px;">2014 → 2024</p>
+              <p style="font-size:24px;font-weight:800;color:#16a34a;line-height:1;">+2.9%</p>
+              <p style="font-size:9px;color:#9ca3af;margin-top:3px;">acum. anual</p>
+            </div>
+            <div style="background:#f8f7f4;border:1px solid #e5e7eb;border-radius:8px;padding:10px 6px;text-align:center;">
+              <span style="display:inline-block;background:#374151;color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;border-radius:4px;padding:2px 7px;margin-bottom:4px;">5 AÑOS</span>
+              <p style="font-size:10px;color:#9ca3af;margin-bottom:5px;">2019 → 2024</p>
+              <p style="font-size:24px;font-weight:800;color:#16a34a;line-height:1;">+4.1%</p>
+              <p style="font-size:9px;color:#9ca3af;margin-top:3px;">acum. anual</p>
+            </div>
+            <div style="background:#f8f7f4;border:1px solid #e5e7eb;border-radius:8px;padding:10px 6px;text-align:center;">
+              <span style="display:inline-block;background:#374151;color:#fff;font-size:9px;font-weight:700;letter-spacing:1px;border-radius:4px;padding:2px 7px;margin-bottom:4px;">1 AÑO</span>
+              <p style="font-size:10px;color:#9ca3af;margin-bottom:5px;">2023 → 2024</p>
+              <p style="font-size:24px;font-weight:800;color:#16a34a;line-height:1;">+5.9%</p>
+              <p style="font-size:9px;color:#9ca3af;margin-top:3px;">var. anual</p>
+            </div>
+          </div>
+        </div>
+        <div style="padding:14px 18px;">
+          <p style="font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#9ca3af;margin-bottom:8px;">MIX DE CAPACIDAD INSTALADA</p>
+          <div style="display:flex;height:10px;border-radius:5px;overflow:hidden;gap:1px;margin-bottom:6px;">
+            <div style="width:12.5%;background:#0284c7;"></div>
+            <div style="width:18.3%;background:#16a34a;"></div>
+            <div style="width:22.9%;background:#ca8a04;"></div>
+            <div style="width:3.1%;background:#0d9488;"></div>
+            <div style="width:6.9%;background:#7c3aed;"></div>
+            <div style="width:31.9%;background:#6b7280;"></div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;font-size:10px;color:#6b7280;">
+            <span style="color:#0284c7;">● Hidro 12.5%</span><span style="color:#16a34a;">● Eólica 18.3%</span>
+            <span style="color:#ca8a04;">● Solar 22.9%</span><span style="color:#0d9488;">● Otras Ren. 3.1%</span>
+            <span style="color:#7c3aed;">● Nuclear 6.9%</span><span>● Fósil 31.9%</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- ═══════════════════════════════════════ -->
+
+
+    <!-- KPIs ejecutivos: 3 tarjetas comparativas MUNDO vs CSAM -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+
+      <!-- Tarjeta 1: Capacidad Total -->
+      <div class="kpi-card p-5">
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Crecimiento Capacidad Total · 2024</p>
+        <div class="flex items-end justify-between">
+          <div>
+            <p class="text-xs text-gray-400 mb-0.5">MUNDO</p>
+            <p id="kpi-cap-w" class="text-4xl font-bold leading-none" style="color:#4169E1">—</p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs text-gray-400 mb-0.5">CSAM</p>
+            <p id="kpi-cap-c" class="text-4xl font-bold leading-none" style="color:#FF8C00">—</p>
+          </div>
+        </div>
+        <div class="mt-3 pt-3 border-t border-gray-100 flex justify-between text-xs text-gray-400">
+          <span>Var. anual respecto a 2023</span>
+          <span>Capacidad instalada</span>
+        </div>
+      </div>
+
+      <!-- Tarjeta 2: Renovables -->
+      <div class="kpi-card p-5">
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Crecimiento Renovables · 2024</p>
+        <div class="flex items-end justify-between">
+          <div>
+            <p class="text-xs text-gray-400 mb-0.5">MUNDO</p>
+            <p id="kpi-ren-w" class="text-4xl font-bold leading-none" style="color:#4169E1">—</p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs text-gray-400 mb-0.5">CSAM</p>
+            <p id="kpi-ren-c" class="text-4xl font-bold leading-none" style="color:#FF8C00">—</p>
+          </div>
+        </div>
+        <div class="mt-3 pt-3 border-t border-gray-100 flex justify-between text-xs text-gray-400">
+          <span>Var. anual respecto a 2023</span>
+          <span>Capacidad renovable</span>
+        </div>
+      </div>
+
+      <!-- Tarjeta 3: Pérdidas -->
+      <div class="kpi-card p-5">
+        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Pérdidas / Generación · 2024</p>
+        <div class="flex items-end justify-between">
+          <div>
+            <p class="text-xs text-gray-400 mb-0.5">MUNDO</p>
+            <p id="kpi-lp-w" class="text-4xl font-bold leading-none" style="color:#4169E1">—</p>
+          </div>
+          <div class="text-right">
+            <p class="text-xs text-gray-400 mb-0.5">CSAM</p>
+            <p id="kpi-lp-c" class="text-4xl font-bold leading-none" style="color:#FF0000">—</p>
+          </div>
+        </div>
+        <div class="mt-3 pt-3 border-t border-gray-100 flex justify-between text-xs text-gray-400">
+          <span>Pérdidas en distribución</span>
+          <span>% sobre generación total</span>
+        </div>
+      </div>
+
+    </div>    <!-- Gráfico principal interactivo -->
+    <div class="section-card p-6 mb-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-5">
+            <div>
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Métrica principal</label>
+                <select id="chart-selector" class="block w-full md:w-72 pl-3 pr-8 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <option value="cap"  selected>Capacidad Energética Total (% crec. anual)</option>
+                    <option value="gen">Generación de Electricidad (% crec. anual)</option>
+                    <option value="ren">Capacidad Renovable Total (% crec. anual)</option>
+                </select>
+            </div>
+            <div class="w-full md:w-1/2">
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
+                    Año destacado: <span id="year-label" class="font-bold" style="color:#4169E1">2024</span>
+                </label>
+                <input type="range" id="year-slider" min="0" max="10" value="10"
+                       class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+            </div>
+        </div>
+        <div class="chart-container">
+            <canvas id="mainChart"></canvas>
+        </div>
+        <p id="main-chart-text" class="mt-4 text-gray-600 text-sm leading-relaxed"></p>
+    </div>
+
+    <!-- Gráfico generación -->
+    <div class="section-card p-6">
+        <h3 class="text-lg font-semibold text-gray-800 mb-1">Crecimiento Anual en Generación de Electricidad (%)</h3>
+        <p class="text-sm text-gray-500 mb-4">
+            Ambas regiones cayeron en 2020 y se recuperaron en 2021. CSAM alcanzó su máximo histórico en 2024 con <strong>+6.97%</strong>.
+            TCAA* 2014–2024: MUNDO <strong>2.61%</strong> · CSAM <strong>1.66%</strong>.
+        </p>
+        <div class="chart-container">
+            <canvas id="generationChart"></canvas>
+        </div>
+    </div>
+
+    <!-- Análisis generación por continente -->
+    <div style="margin-top:18px;">
+      <p style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6b7280;margin-bottom:12px;">Generación Eléctrica por Continente — Análisis Comparativo 2014–2024</p>
+
+      <!-- Tabla participación + CAGR -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;" class="gen-cont-grid">
+
+        <div class="section-card p-5">
+          <p style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6b7280;margin-bottom:10px;">Generación 2024 · Participación y CAGR</p>
+          <table style="width:100%;border-collapse:collapse;font-size:12px;">
+            <thead>
+              <tr style="background:#f3f4f6;">
+                <th style="padding:5px 8px;text-align:left;color:#6b7280;font-weight:600;">Continente</th>
+                <th style="padding:5px 8px;text-align:right;color:#6b7280;font-weight:600;">2024 (B kWh)</th>
+                <th style="padding:5px 8px;text-align:right;color:#6b7280;font-weight:600;">% Mundo</th>
+                <th style="padding:5px 8px;text-align:right;color:#6b7280;font-weight:600;">TCAA* 10a</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #f3f4f6;">
+                <td style="padding:4px 8px;color:#374151;font-weight:600;">Asia &amp; Oceanía</td>
+                <td style="padding:4px 8px;text-align:right;">16,082.7</td>
+                <td style="padding:4px 8px;text-align:right;font-weight:700;color:#374151;">52.5%</td>
+                <td style="padding:4px 8px;text-align:right;font-weight:700;color:#16a34a;">+4.48%</td>
+              </tr>
+              <tr style="border-bottom:1px solid #f3f4f6;background:#f9fafb;">
+                <td style="padding:4px 8px;color:#374151;font-weight:600;">Norteamérica</td>
+                <td style="padding:4px 8px;text-align:right;">5,392.0</td>
+                <td style="padding:4px 8px;text-align:right;font-weight:600;">17.6%</td>
+                <td style="padding:4px 8px;text-align:right;color:#6b7280;">+0.65%</td>
+              </tr>
+              <tr style="border-bottom:1px solid #f3f4f6;">
+                <td style="padding:4px 8px;color:#374151;font-weight:600;">Europa</td>
+                <td style="padding:4px 8px;text-align:right;">3,610.5</td>
+                <td style="padding:4px 8px;text-align:right;font-weight:600;">11.8%</td>
+                <td style="padding:4px 8px;text-align:right;color:#dc2626;">−0.05%</td>
+              </tr>
+              <tr style="border-bottom:1px solid #f3f4f6;background:#f9fafb;">
+                <td style="padding:4px 8px;color:#374151;">Eurasia</td>
+                <td style="padding:4px 8px;text-align:right;">1,629.1</td>
+                <td style="padding:4px 8px;text-align:right;">5.3%</td>
+                <td style="padding:4px 8px;text-align:right;color:#6b7280;">+0.78%</td>
+              </tr>
+              <tr style="border-bottom:1px solid #f3f4f6;">
+                <td style="padding:4px 8px;color:#374151;">Oriente Medio</td>
+                <td style="padding:4px 8px;text-align:right;">1,503.5</td>
+                <td style="padding:4px 8px;text-align:right;">4.9%</td>
+                <td style="padding:4px 8px;text-align:right;font-weight:600;color:#16a34a;">+3.32%</td>
+              </tr>
+              <tr style="border-bottom:1px solid #f3f4f6;background:#fff8f0;">
+                <td style="padding:5px 8px;color:#d97706;font-weight:700;">LATAM (CSAM)</td>
+                <td style="padding:5px 8px;text-align:right;font-weight:700;color:#d97706;">1,496.6</td>
+                <td style="padding:5px 8px;text-align:right;font-weight:700;color:#d97706;">4.9%</td>
+                <td style="padding:5px 8px;text-align:right;font-weight:700;color:#d97706;">+1.66%</td>
+              </tr>
+              <tr style="border-bottom:1px solid #f3f4f6;background:#f9fafb;">
+                <td style="padding:4px 8px;color:#374151;">África</td>
+                <td style="padding:4px 8px;text-align:right;">927.6</td>
+                <td style="padding:4px 8px;text-align:right;">3.0%</td>
+                <td style="padding:4px 8px;text-align:right;color:#6b7280;">+1.96%</td>
+              </tr>
+              <tr style="background:#eef2ff;">
+                <td style="padding:5px 8px;color:#4169E1;font-weight:700;">MUNDO</td>
+                <td style="padding:5px 8px;text-align:right;font-weight:700;color:#4169E1;">30,642.0</td>
+                <td style="padding:5px 8px;text-align:right;font-weight:700;color:#4169E1;">100%</td>
+                <td style="padding:5px 8px;text-align:right;font-weight:700;color:#4169E1;">+2.61%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section-card p-5">
+          <p style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6b7280;margin-bottom:12px;">Hallazgos Clave</p>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+
+            <div style="background:rgba(65,105,225,0.05);border-left:3px solid #4169E1;border-radius:0 6px 6px 0;padding:9px 12px;">
+              <p style="font-size:12px;font-weight:700;color:#4169E1;margin-bottom:3px;">Asia impulsa el mundo</p>
+              <p style="font-size:12px;color:#374151;line-height:1.5;">Asia &amp; Oceanía creció al <strong>+4.48% anual</strong> en 10 años y ya representa el <strong>52.5%</strong> de la generación mundial. China por sí sola alcanzó 10,161.5 B kWh en 2024, el 33% del total global.</p>
+            </div>
+
+            <div style="background:rgba(5,150,105,0.05);border-left:3px solid #059669;border-radius:0 6px 6px 0;padding:9px 12px;">
+              <p style="font-size:12px;font-weight:700;color:#059669;margin-bottom:3px;">Europa: única región en contracción</p>
+              <p style="font-size:12px;color:#374151;line-height:1.5;">TCAA* de <strong>−0.05%</strong> en 10 años — es la única región donde la generación prácticamente no crece. Pasó de 3,627 (2014) a 3,610 B kWh (2024). Refleja eficiencia energética y transición hacia menor consumo, no recesión productiva.</p>
+            </div>
+
+            <div style="background:rgba(217,119,6,0.05);border-left:3px solid #d97706;border-radius:0 6px 6px 0;padding:9px 12px;">
+              <p style="font-size:12px;font-weight:700;color:#d97706;margin-bottom:3px;">LATAM crece menos que el mundo, pero lidera en 2024</p>
+              <p style="font-size:12px;color:#374151;line-height:1.5;">TCAA* a 10 años de <strong>+1.66%</strong>, por debajo del promedio mundial (+2.61%). Sin embargo, en <strong>2024 LATAM lideró el rebote</strong> con +6.97% interanual — la tasa más alta de todos los continentes ese año, traccionada por Brasil y Colombia.</p>
+            </div>
+
+            <div style="background:rgba(220,38,38,0.05);border-left:3px solid #dc2626;border-radius:0 6px 6px 0;padding:9px 12px;">
+              <p style="font-size:12px;font-weight:700;color:#dc2626;margin-bottom:3px;">COVID-19: LATAM y Europa más afectadas</p>
+              <p style="font-size:12px;color:#374151;line-height:1.5;">En 2020, LATAM cayó <strong>−1.71%</strong> y Europa <strong>−2.84%</strong>, mientras el MUNDO apenas varió (−0.04%). La recuperación de LATAM fue más lenta: no superó el nivel pre-pandemia hasta 2021–2022.</p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECCIÓN 2 · RENOVABLES
+══════════════════════════════════════════ -->
+<section id="renovables" class="mb-16">
+    <h2 class="text-2xl font-bold text-gray-900 mb-1">Análisis Detallado de Energías Renovables</h2>
+    <p class="text-gray-500 text-sm mb-6">Crecimiento anual (%) de capacidad instalada por tecnología · 2014–2024 · Haga clic en "Ver detalle" para ampliar.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Solar -->
+        <div class="section-card p-6">
+            <h3 class="text-base font-semibold text-gray-800 mb-3">☀️ Energía Solar</h3>
+            <div class="small-chart-container"><canvas id="solarChart"></canvas></div>
+            <button onclick="openModal('solar')" class="mt-4 w-full py-2 text-sm font-medium text-white rounded-lg transition hover:opacity-90" style="background:#4169E1">Ver detalle</button>
+        </div>
+
+        <!-- Eólica -->
+        <div class="section-card p-6">
+            <h3 class="text-base font-semibold text-gray-800 mb-3">💨 Energía Eólica</h3>
+            <div class="small-chart-container"><canvas id="windChart"></canvas></div>
+            <button onclick="openModal('wind')" class="mt-4 w-full py-2 text-sm font-medium text-white rounded-lg transition hover:opacity-90" style="background:#4169E1">Ver detalle</button>
+        </div>
+
+        <!-- Hidroeléctrica -->
+        <div class="section-card p-6">
+            <h3 class="text-base font-semibold text-gray-800 mb-3">💧 Energía Hidroeléctrica</h3>
+            <div class="small-chart-container"><canvas id="hydroChart"></canvas></div>
+            <button onclick="openModal('hydro')" class="mt-4 w-full py-2 text-sm font-medium text-white rounded-lg transition hover:opacity-90" style="background:#4169E1">Ver detalle</button>
+        </div>
+
+        <!-- Biomasa -->
+        <div class="section-card p-6">
+            <h3 class="text-base font-semibold text-gray-800 mb-3">🌿 Biomasa y Residuos</h3>
+            <div class="small-chart-container"><canvas id="biomassChart"></canvas></div>
+            <button onclick="openModal('biomass')" class="mt-4 w-full py-2 text-sm font-medium text-white rounded-lg transition hover:opacity-90" style="background:#4169E1">Ver detalle</button>
+        </div>
+
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECCIÓN 3 · PÉRDIDAS
+══════════════════════════════════════════ -->
+<section id="perdidas" class="mb-16">
+    <h2 class="text-2xl font-bold text-gray-900 mb-1">Pérdidas en Distribución — LATAM vs MUNDO</h2>
+    <p class="text-gray-500 text-sm mb-6">Pérdidas como % de la generación total · 2014–2024 · Fuente: US EIA</p>
+
+    <!-- KPI banner pérdidas -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;" class="perdidas-kpi-grid">
+      <div class="kpi-card p-4" style="border-top:4px solid #d97706;">
+        <p style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#d97706;margin-bottom:6px;">LATAM · 2024</p>
+        <p style="font-size:36px;font-weight:800;color:#d97706;line-height:1;margin-bottom:4px;">14.59%</p>
+        <p style="font-size:11px;color:#6b7280;">de la generación total</p>
+      </div>
+      <div class="kpi-card p-4" style="border-top:4px solid #4169E1;">
+        <p style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#4169E1;margin-bottom:6px;">MUNDO · 2024</p>
+        <p style="font-size:36px;font-weight:800;color:#4169E1;line-height:1;margin-bottom:4px;">6.92%</p>
+        <p style="font-size:11px;color:#6b7280;">de la generación total</p>
+      </div>
+      <div class="kpi-card p-4" style="border-top:4px solid #dc2626;">
+        <p style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#dc2626;margin-bottom:6px;">BRECHA · 2024</p>
+        <p style="font-size:36px;font-weight:800;color:#dc2626;line-height:1;margin-bottom:4px;">2.11×</p>
+        <p style="font-size:11px;color:#6b7280;">LATAM sobre promedio mundial</p>
+      </div>
+      <div class="kpi-card p-4" style="border-top:4px solid #6b7280;">
+        <p style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:6px;">PÉRD. ABSOLUTAS · 2024</p>
+        <p style="font-size:36px;font-weight:800;color:#374151;line-height:1;margin-bottom:4px;">218 B kWh</p>
+        <p style="font-size:11px;color:#6b7280;">generación no aprovechada</p>
+      </div>
+    </div>
+
+    <!-- Tabla comparativa histórica -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px;" class="perdidas-detail-grid">
+
+      <div class="section-card p-5">
+        <p style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6b7280;margin-bottom:10px;">Serie Histórica 2014–2024 · % Pérdidas / Generación</p>
+        <table style="width:100%;border-collapse:collapse;font-size:12px;">
+          <thead>
+            <tr style="background:#f3f4f6;">
+              <th style="padding:5px 8px;text-align:center;color:#6b7280;font-weight:600;">Año</th>
+              <th style="padding:5px 8px;text-align:right;color:#d97706;font-weight:700;">LATAM</th>
+              <th style="padding:5px 8px;text-align:right;color:#4169E1;font-weight:700;">MUNDO</th>
+              <th style="padding:5px 8px;text-align:right;color:#dc2626;font-weight:700;">Ratio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #f3f4f6;"><td style="padding:4px 8px;text-align:center;color:#6b7280;">2014</td><td style="padding:4px 8px;text-align:right;font-weight:600;color:#d97706;">15.37%</td><td style="padding:4px 8px;text-align:right;font-weight:600;color:#4169E1;">7.97%</td><td style="padding:4px 8px;text-align:right;color:#6b7280;">1.93×</td></tr>
+            <tr style="border-bottom:1px solid #f3f4f6;background:#f9fafb;"><td style="padding:4px 8px;text-align:center;color:#6b7280;">2016</td><td style="padding:4px 8px;text-align:right;font-weight:600;color:#d97706;">14.99%</td><td style="padding:4px 8px;text-align:right;font-weight:600;color:#4169E1;">7.95%</td><td style="padding:4px 8px;text-align:right;color:#6b7280;">1.89×</td></tr>
+            <tr style="border-bottom:1px solid #f3f4f6;"><td style="padding:4px 8px;text-align:center;color:#6b7280;">2018</td><td style="padding:4px 8px;text-align:right;font-weight:600;color:#d97706;">14.99%</td><td style="padding:4px 8px;text-align:right;font-weight:600;color:#4169E1;">7.62%</td><td style="padding:4px 8px;text-align:right;color:#dc2626;">1.97×</td></tr>
+            <tr style="border-bottom:1px solid #f3f4f6;background:#f9fafb;"><td style="padding:4px 8px;text-align:center;color:#6b7280;">2020</td><td style="padding:4px 8px;text-align:right;font-weight:600;color:#d97706;">15.01%</td><td style="padding:4px 8px;text-align:right;font-weight:600;color:#4169E1;">7.40%</td><td style="padding:4px 8px;text-align:right;color:#dc2626;">2.03×</td></tr>
+            <tr style="border-bottom:1px solid #f3f4f6;"><td style="padding:4px 8px;text-align:center;color:#6b7280;">2022</td><td style="padding:4px 8px;text-align:right;font-weight:600;color:#d97706;">15.05%</td><td style="padding:4px 8px;text-align:right;font-weight:600;color:#4169E1;">7.06%</td><td style="padding:4px 8px;text-align:right;color:#dc2626;">2.13×</td></tr>
+            <tr style="border-bottom:1px solid #f3f4f6;background:#f9fafb;"><td style="padding:4px 8px;text-align:center;color:#6b7280;">2023</td><td style="padding:4px 8px;text-align:right;font-weight:600;color:#d97706;">14.96%</td><td style="padding:4px 8px;text-align:right;font-weight:600;color:#4169E1;">6.95%</td><td style="padding:4px 8px;text-align:right;color:#dc2626;">2.15×</td></tr>
+            <tr style="background:#fff3cd;">
+              <td style="padding:5px 8px;text-align:center;font-weight:700;">2024</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:800;color:#d97706;">14.59%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:800;color:#4169E1;">6.92%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:800;color:#dc2626;">2.11×</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section-card p-5">
+        <p style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#6b7280;margin-bottom:12px;">Análisis y Contexto</p>
+
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="background:rgba(220,38,38,0.05);border-left:3px solid #dc2626;border-radius:0 6px 6px 0;padding:9px 12px;">
+            <p style="font-size:12px;font-weight:700;color:#dc2626;margin-bottom:3px;">Brecha estructural persistente</p>
+            <p style="font-size:12px;color:#374151;line-height:1.5;">LATAM perdió en 2024 el equivalente al <strong>14.59%</strong> de su generación — más del doble que el promedio mundial (6.92%). Esta brecha no se cierra: en 2014 era 1.93× y en 2024 es 2.11×, por lo que se ha <strong>ampliado</strong> en la última década.</p>
+          </div>
+          <div style="background:rgba(217,119,6,0.05);border-left:3px solid #d97706;border-radius:0 6px 6px 0;padding:9px 12px;">
+            <p style="font-size:12px;font-weight:700;color:#d97706;margin-bottom:3px;">LATAM mejoró levemente en 2024</p>
+            <p style="font-size:12px;color:#374151;line-height:1.5;">El ratio cayó de 14.96% (2023) a <strong>14.59% (2024)</strong>, el valor más bajo de la serie — una reducción de 0.37 pp. Sin embargo, en términos absolutos las pérdidas <strong>aumentaron</strong>: de 209.3 a 218.3 B kWh, reflejando que la generación crece más rápido que la mejora en redes.</p>
+          </div>
+          <div style="background:rgba(65,105,225,0.05);border-left:3px solid #4169E1;border-radius:0 6px 6px 0;padding:9px 12px;">
+            <p style="font-size:12px;font-weight:700;color:#4169E1;margin-bottom:3px;">MUNDO redujo con mayor ritmo</p>
+            <p style="font-size:12px;color:#374151;line-height:1.5;">El mundo bajó 1.05 pp en la década (7.97% → 6.92%), versus solo 0.78 pp de LATAM (15.37% → 14.59%). La inversión en modernización de redes de distribución avanza globalmente más rápido que en la región.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="section-card p-6">
+        <div class="chart-container"><canvas id="lossesChart"></canvas></div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════
+     SECCIÓN 4 · CONTEXTO
+══════════════════════════════════════════ -->
+<section id="contexto" class="mb-12">
+    <h2 class="text-2xl font-bold text-gray-900 mb-1">Capacidad Instalada 2024 — Destaques</h2>
+    <p class="text-gray-500 text-sm mb-6">Análisis comparativo MUNDO · LATAM · EUROPA · Fuente: US EIA</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;" class="destaques-grid">
+
+      <!-- 1 -->
+      <div class="section-card p-5">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <span style="background:#4169E1;color:#fff;font-size:11px;font-weight:800;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">1</span>
+          <h3 style="font-size:14px;font-weight:700;color:#1f2937;margin:0;">Tamaño y participación global</h3>
+        </div>
+        <p style="font-size:13px;color:#4b5563;line-height:1.6;">
+          LATAM representa apenas el <strong style="color:#d97706;">5.2%</strong> de la capacidad mundial
+          (503 M kW sobre 9,718 M kW), mientras Europa triplica esa participación con
+          <strong style="color:#059669;">15.8%</strong> (1,536 M kW).
+          Asia &amp; Oceanía domina con más del <strong>52%</strong> del total global.
+        </p>
+      </div>
+
+      <!-- 2 -->
+      <div class="section-card p-5">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <span style="background:#4169E1;color:#fff;font-size:11px;font-weight:800;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">2</span>
+          <h3 style="font-size:14px;font-weight:700;color:#1f2937;margin:0;">Mix renovable: LATAM lidera, Europa transita, MUNDO rezagado</h3>
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:8px;">
+          <thead>
+            <tr style="background:#f3f4f6;">
+              <th style="padding:5px 8px;text-align:left;color:#6b7280;font-weight:600;"></th>
+              <th style="padding:5px 8px;text-align:right;color:#4169E1;font-weight:700;">MUNDO</th>
+              <th style="padding:5px 8px;text-align:right;color:#d97706;font-weight:700;">LATAM</th>
+              <th style="padding:5px 8px;text-align:right;color:#059669;font-weight:700;">EUROPA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #f3f4f6;">
+              <td style="padding:5px 8px;color:#374151;">Renovables Total</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;">45.1%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:700;color:#d97706;">66.2%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;">56.9%</td>
+            </tr>
+            <tr style="border-bottom:1px solid #f3f4f6;background:#f9fafb;">
+              <td style="padding:5px 8px;color:#374151;">Renovables sin Hidro</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;">32.4%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;">28.9%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:700;color:#059669;">44.4%</td>
+            </tr>
+            <tr>
+              <td style="padding:5px 8px;color:#374151;">Fósil</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:700;color:#dc2626;">48.9%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;">32.9%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;">31.9%</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size:12px;color:#6b7280;line-height:1.5;">LATAM lidera en renovables totales por su base hidroeléctrica. Europa lidera en renovables <em>no hidráulicas</em>. Ambas superan ampliamente el mix fósil mundial.</p>
+      </div>
+
+      <!-- 3 -->
+      <div class="section-card p-5">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <span style="background:#4169E1;color:#fff;font-size:11px;font-weight:800;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">3</span>
+          <h3 style="font-size:14px;font-weight:700;color:#1f2937;margin:0;">La hidro: fortaleza de LATAM, base de Europa, marginal en el mundo</h3>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:rgba(217,119,6,0.06);border-left:3px solid #d97706;border-radius:0 6px 6px 0;padding:8px 10px;">
+            <p style="font-size:12px;color:#374151;margin:0;line-height:1.5;"><strong style="color:#d97706;">LATAM:</strong> 188.2 M kW → <strong>37.4%</strong> del mix. Con solo el 5.2% de capacidad mundial, concentra el <strong>15.3%</strong> de toda la hidro del planeta.</p>
+          </div>
+          <div style="background:rgba(5,150,105,0.06);border-left:3px solid #059669;border-radius:0 6px 6px 0;padding:8px 10px;">
+            <p style="font-size:12px;color:#374151;margin:0;line-height:1.5;"><strong style="color:#059669;">EUROPA:</strong> 191.5 M kW → <strong>12.5%</strong> del mix. Similar en cifra absoluta a LATAM, pero diluida en una matriz más grande y diversa.</p>
+          </div>
+          <div style="background:rgba(65,105,225,0.06);border-left:3px solid #4169E1;border-radius:0 6px 6px 0;padding:8px 10px;">
+            <p style="font-size:12px;color:#374151;margin:0;line-height:1.5;"><strong style="color:#4169E1;">MUNDO:</strong> la hidro apenas alcanza el <strong>12.7%</strong> del mix global, reflejo del peso dominante de la térmica fósil.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="section-card p-5">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <span style="background:#4169E1;color:#fff;font-size:11px;font-weight:800;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</span>
+          <h3 style="font-size:14px;font-weight:700;color:#1f2937;margin:0;">Solar y eólica: LATAM crece más rápido, Europa tiene más masa</h3>
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:8px;">
+          <thead>
+            <tr style="background:#f3f4f6;">
+              <th style="padding:5px 8px;text-align:left;color:#6b7280;font-weight:600;">TCAA 10 años</th>
+              <th style="padding:5px 8px;text-align:right;color:#4169E1;font-weight:700;">MUNDO</th>
+              <th style="padding:5px 8px;text-align:right;color:#d97706;font-weight:700;">LATAM</th>
+              <th style="padding:5px 8px;text-align:right;color:#059669;font-weight:700;">EUROPA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #f3f4f6;">
+              <td style="padding:5px 8px;color:#374151;">☀️ Solar FV</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;color:#16a34a;">+26.3%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:800;color:#ea580c;">+61.0%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;color:#16a34a;">+14.6%</td>
+            </tr>
+            <tr style="border-bottom:1px solid #f3f4f6;background:#f9fafb;">
+              <td style="padding:5px 8px;color:#374151;">💨 Eólica</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;color:#16a34a;">+12.5%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:700;color:#ea580c;">+20.2%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;color:#16a34a;">+7.8%</td>
+            </tr>
+            <tr>
+              <td style="padding:5px 8px;color:#374151;">⚡ Renovables Total</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;color:#16a34a;">+10.2%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;color:#16a34a;">+6.3%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;color:#16a34a;">+7.4%</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size:12px;color:#6b7280;line-height:1.5;">El TCAA solar de LATAM (+61% a 10 años) más que dobla el ritmo mundial y cuadruplica el europeo. En renovables totales crece menos porque su hidro —el grueso— prácticamente no crece (+2.0%).</p>
+      </div>
+
+      <!-- 5 -->
+      <div class="section-card p-5">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <span style="background:#4169E1;color:#fff;font-size:11px;font-weight:800;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">5</span>
+          <h3 style="font-size:14px;font-weight:700;color:#1f2937;margin:0;">Fósil: Europa retrocede, LATAM estabiliza, MUNDO aún expande</h3>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="background:rgba(5,150,105,0.06);border-left:3px solid #059669;border-radius:0 6px 6px 0;padding:8px 10px;">
+            <p style="font-size:12px;color:#374151;margin:0;line-height:1.5;"><strong style="color:#059669;">EUROPA</strong> — única región con reducción activa: TCAA 10 años de <strong style="color:#dc2626;">−0.9%</strong>, tendencia que se acelera.</p>
+          </div>
+          <div style="background:rgba(217,119,6,0.06);border-left:3px solid #d97706;border-radius:0 6px 6px 0;padding:8px 10px;">
+            <p style="font-size:12px;color:#374151;margin:0;line-height:1.5;"><strong style="color:#d97706;">LATAM</strong> — crecimiento fósil moderado (<strong>+1.5%</strong> a 10 años), menor que sus renovables. El peso relativo del fósil se reduce gradualmente.</p>
+          </div>
+          <div style="background:rgba(65,105,225,0.06);border-left:3px solid #4169E1;border-radius:0 6px 6px 0;padding:8px 10px;">
+            <p style="font-size:12px;color:#374151;margin:0;line-height:1.5;"><strong style="color:#4169E1;">MUNDO</strong> — sigue expandiendo fósil (<strong>+2.0%</strong> a 10 años), traccionado principalmente por Asia.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="section-card p-5">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+          <span style="background:#4169E1;color:#fff;font-size:11px;font-weight:800;border-radius:50%;width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">6</span>
+          <h3 style="font-size:14px;font-weight:700;color:#1f2937;margin:0;">Nuclear: rol muy diferente en cada región</h3>
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:8px;">
+          <thead>
+            <tr style="background:#f3f4f6;">
+              <th style="padding:5px 8px;text-align:left;color:#6b7280;font-weight:600;"></th>
+              <th style="padding:5px 8px;text-align:right;color:#4169E1;font-weight:700;">MUNDO</th>
+              <th style="padding:5px 8px;text-align:right;color:#d97706;font-weight:700;">LATAM</th>
+              <th style="padding:5px 8px;text-align:right;color:#059669;font-weight:700;">EUROPA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #f3f4f6;">
+              <td style="padding:5px 8px;color:#374151;">⚛️ Nuclear (M kW)</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;">378.7</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;">3.5</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:700;color:#059669;">106.5</td>
+            </tr>
+            <tr style="border-bottom:1px solid #f3f4f6;background:#f9fafb;">
+              <td style="padding:5px 8px;color:#374151;">% Mix</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;">3.9%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;">0.7%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:700;color:#059669;">6.9%</td>
+            </tr>
+            <tr>
+              <td style="padding:5px 8px;color:#374151;">% Mundial</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;color:#6b7280;">ref.</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:600;">0.9%</td>
+              <td style="padding:5px 8px;text-align:right;font-weight:700;color:#059669;">28.1%</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size:12px;color:#6b7280;line-height:1.5;">Europa concentra el <strong>28%</strong> de la capacidad nuclear mundial teniendo solo el 16% de la capacidad total — una apuesta histórica por generación base baja en carbono. LATAM es prácticamente ausente en este segmento.</p>
+      </div>
+
+    </div>
+</section>
+
+
+<!-- Nota TCAA -->
+<div style="margin-top:8px;padding:10px 16px;background:#f8f7f4;border:1px solid #e5e7eb;border-radius:8px;font-size:11px;color:#6b7280;">
+  <strong style="color:#374151;">* TCAA — Tasa de Crecimiento Acumulativo Anual</strong>
+  (en inglés: <em>CAGR, Compound Annual Growth Rate</em>): indica el ritmo de crecimiento promedio sostenido año a año durante un período determinado, como si el crecimiento hubiese sido constante en cada año del intervalo.
+  Fórmula: <code style="background:#e5e7eb;padding:1px 5px;border-radius:3px;">TCAA = (Valor Final / Valor Inicial)<sup>1/n</sup> − 1</code>, donde <em>n</em> es el número de años.
+</div>
+
+</main>
+
+<footer class="mt-8 py-4 border-t border-gray-200 text-center text-xs text-gray-400">
+    Fuente de datos: U.S. Energy Information Administration (EIA) · Elaboración: Coordinación Internacional del Área Corporativa CIER · Marzo 2026
+</footer>
+
+<!-- ══════ MODAL ══════ -->
+<div id="details-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-bg">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h3 id="modal-title" class="text-xl font-bold text-gray-900"></h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-700 text-2xl leading-none">&times;</button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <h4 class="text-sm font-semibold text-gray-700 mb-2">Análisis</h4>
+                    <p id="modal-text" class="text-sm text-gray-600 leading-relaxed"></p>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold text-gray-700 mb-2">Crecimiento anual (%) · 2020 – 2024</h4>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full text-sm divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-3 py-2 text-left text-xs font-semibold text-gray-500">Región</th>
+                                    <th class="px-3 py-2 text-right text-xs font-semibold text-gray-500">2020</th>
+                                    <th class="px-3 py-2 text-right text-xs font-semibold text-gray-500">2021</th>
+                                    <th class="px-3 py-2 text-right text-xs font-semibold text-gray-500">2022</th>
+                                    <th class="px-3 py-2 text-right text-xs font-semibold text-gray-500">2023</th>
+                                    <th class="px-3 py-2 text-right text-xs font-semibold text-gray-500">2024</th>
+                                </tr>
+                            </thead>
+                            <tbody id="modal-table-body" class="bg-white divide-y divide-gray-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════ SCRIPT ══════ -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    Chart.register(ChartDataLabels);
+
+    // ── DATOS 100% DESDE EIA EXCEL ──────────────────────────────────────────
+    // Fuente: INT_Export_02_25_2026_22_47_02
+    // Todos los valores son % de crecimiento anual respecto al año anterior
+    // Años de la serie: 2014-2024 (11 puntos, base 2013)
+    // -------------------------------------------------------------------------
+
+    const YEARS = [2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024];
+
+    const D = {
+        // Capacidad Total instalada (% crec. anual)
+        cap: {
+            w: [3.97, 4.56, 4.56, 4.04, 4.26, 3.60, 4.84, 4.84, 4.19, 6.44, 7.01],
+            c: [3.12, 4.24, 6.30, 3.40, 3.31, 3.33, 3.40, 4.69, 4.10, 4.83, 6.42]
+        },
+        // Generación de electricidad (% crec. anual)
+        gen: {
+            w: [2.63, 1.18, 2.48, 2.97, 3.24, 1.46,-0.04, 5.14, 2.25, 3.71, 3.79],
+            c: [-0.06,2.54, 0.53,-0.47, 1.29, 0.70,-1.71, 4.58, 1.47, 0.97, 6.97]
+        },
+        // Capacidad Renovable total (% crec. anual)
+        ren: {
+            w: [9.05, 9.11, 8.82, 8.64, 8.04, 7.91,11.11, 9.24,10.15,14.40,14.40],
+            c: [5.68, 5.50, 8.71, 4.74, 5.22, 5.00, 4.02, 6.01, 7.68, 8.70, 7.99]
+        },
+        // Solar (% crec. anual capacidad instalada)
+        solar: {
+            w: [33.78,26.59,31.69,31.68,23.66,21.00,22.65,19.83,22.93,32.48,31.75],
+            c: [103.65,180.95,49.13,92.55,43.42,48.67,47.67,53.39,56.27,42.06,35.29]
+        },
+        // Eólica (% crec. anual)
+        wind: {
+            w: [16.50,19.15,12.17,10.15, 9.74, 9.98,18.18,12.38, 9.52,12.90,11.20],
+            c: [105.55,49.78,28.99,19.79,20.36, 8.43,15.65,21.27,12.49,18.95,11.54]
+        },
+        // Hidroeléctrica (% crec. anual)
+        hydro: {
+            w: [3.68, 3.07, 2.64, 1.97, 1.99, 1.59, 1.91, 1.11, 1.76, 0.87, 1.03],
+            c: [3.24, 2.81, 7.03, 2.29, 2.98, 2.83, 0.27, 0.16, 0.84, 0.54, 0.02]
+        },
+        // Biomasa y Residuos (% crec. anual)
+        biomass: {
+            w: [7.15, 4.93, 9.17, 5.91, 5.66, 5.06, 7.36, 7.12, 6.73, 5.15,-14.85],
+            c: [4.17, 4.20, 7.25, 2.91, 1.81, 4.98, 2.07, 2.56, 4.21, 3.43, 2.04]
+        },
+        // Pérdidas distribución como % de la generación (valor absoluto, no crec.)
+        losses: {
+            w: [7.97,7.96,7.95,7.78,7.62,7.49,7.40,7.25,7.06,6.95,6.92],
+            c: [15.36,14.98,15.00,15.09,14.99,14.93,15.01,15.03,15.05,14.96,14.58]
+        }
+    };
+
+    // ── TEXTOS ANALÍTICOS ───────────────────────────────────────────────────
+    const TEXT = {
+        cap: "La capacidad total instalada aceleró su ritmo en 2023–2024. MUNDO alcanzó +7.01% en 2024, máximo de la serie, impulsado por la masiva incorporación de solar y eólica. CSAM también registró su mejor valor (+6.42%), evidenciando inversiones sostenidas en la región.",
+        gen: "La generación mostró fuerte recuperación en 2024. CSAM alcanzó su máximo histórico del período (+6.97%), superando el crecimiento de MUNDO (+3.79%). Ambas regiones habían caído en 2020 por la pandemia y repuntaron en 2021.",
+        ren: "Las renovables crecen a un ritmo muy superior al de la capacidad total. MUNDO consolidó dos años consecutivos al 14.40%, récord de la serie. CSAM crece de forma sostenida desde 2020, superando el 8% en 2023.",
+        solar: "La solar lidera la transición energética en ambas regiones. MUNDO mantiene tasas superiores al 31% en 2024. CSAM crece a tasas decrecientes pero aún muy altas (+35.29%), con Brasil, Chile y Colombia como motores principales.",
+        wind: "La eólica sigue expandiéndose, aunque a tasas más moderadas que la solar. En 2024, MUNDO creció 11.20% y CSAM 11.54%, mostrando maduración progresiva del sector. CSAM tuvo un impulso inicial enorme en 2014 (+105%) desde una base pequeña.",
+        hydro: "La hidroelectricidad prácticamente se estancó en CSAM en 2024 (+0.02%), señalando saturación del potencial aprovechable. MUNDO creció apenas 1.03%. El crecimiento renovable futuro dependerá de solar y eólica.",
+        biomass: "La biomasa registró en 2024 una caída histórica de -14.85% en MUNDO en capacidad instalada (posible reclasificación de plantas). CSAM mantuvo un crecimiento modesto (+2.04%), con Brasil como principal contribuyente.",
+        losses: "Las pérdidas de distribución son un desafío persistente. MUNDO redujo de 7.97% (2014) a 6.92% (2024), mejora continua de eficiencia. CSAM bajó a 14.58% en 2024, su mínimo histórico, pero sigue siendo más del doble que MUNDO, reflejando problemas estructurales de infraestructura."
+    };
+
+    // ── COLORES ──────────────────────────────────────────────────────────────
+    const C_MUNDO = 'rgba(65,105,225,0.85)';
+    const C_CSAM  = 'rgba(255,140,0,0.85)';
+    const C_MUNDO_B = 'rgba(65,105,225,1)';
+    const C_CSAM_B  = 'rgba(255,140,0,1)';
+
+    // ── KPIs (valores 2024, índice 10) ───────────────────────────────────────
+    document.getElementById('kpi-cap-w').textContent = D.cap.w[10].toFixed(2) + '%';
+    document.getElementById('kpi-cap-c').textContent = D.cap.c[10].toFixed(2) + '%';
+    document.getElementById('kpi-ren-w').textContent = D.ren.w[10].toFixed(2) + '%';
+    document.getElementById('kpi-ren-c').textContent = D.ren.c[10].toFixed(2) + '%';
+    document.getElementById('kpi-lp-w').textContent  = D.losses.w[10].toFixed(2) + '%';
+    document.getElementById('kpi-lp-c').textContent  = D.losses.c[10].toFixed(2) + '%';
+
+    // ── HELPERS ──────────────────────────────────────────────────────────────
+    function barColors(data, highlightIdx, baseColor, hlColor) {
+        return data.map((_, i) => i === highlightIdx ? hlColor : baseColor);
+    }
+
+    function makeDatalabels(size, color) {
+        return {
+            anchor:'end', align:'top',
+            color: color || '#374151',
+            font:{ weight:'600', size: size || 10 },
+            formatter: v => v !== null ? v.toFixed(2) + '%' : ''
+        };
+    }
+
+    function commonBarOpts(yLabel) {
+        return {
+            responsive:true, maintainAspectRatio:false,
+            scales:{
+                x:{ grid:{ display:false }, ticks:{ font:{size:11} } },
+                y:{
+                    beginAtZero:false,
+                    title:{ display:!!yLabel, text:yLabel, font:{size:11} },
+                    ticks:{ callback: v => v+'%', font:{size:11} },
+                    grid:{ color:'rgba(0,0,0,.06)' }
+                }
+            },
+            plugins:{
+                legend:{ labels:{ font:{size:12} } },
+                tooltip:{
+                    callbacks:{
+                        label: ctx => `${ctx.dataset.label}: ${ctx.raw !== null ? ctx.raw.toFixed(2)+'%' : 'n/d'}`
+                    }
+                }
+            }
+        };
+    }
+
+    // ── GRÁFICO PRINCIPAL ────────────────────────────────────────────────────
+    let mainChart;
+    let currentMetric = 'cap';
+    let highlightIdx  = 10; // 2024
+
+    function buildMainChart() {
+        const ctx = document.getElementById('mainChart').getContext('2d');
+        if (mainChart) mainChart.destroy();
+
+        const dw = D[currentMetric].w;
+        const dc = D[currentMetric].c;
+
+        mainChart = new Chart(ctx, {
+            type:'bar',
+            data:{
+                labels: YEARS,
+                datasets:[
+                    {
+                        label:'MUNDO',
+                        data: dw,
+                        backgroundColor: dw.map((_, i) => i===highlightIdx ? 'rgba(65,105,225,1)' : 'rgba(65,105,225,0.55)'),
+                        borderRadius:3
+                    },
+                    {
+                        label:'CSAM',
+                        data: dc,
+                        backgroundColor: dc.map((_, i) => i===highlightIdx ? 'rgba(255,140,0,1)' : 'rgba(255,140,0,0.55)'),
+                        borderRadius:3
+                    }
+                ]
+            },
+            options:{
+                ...commonBarOpts('% Crecimiento Anual'),
+                plugins:{
+                    ...commonBarOpts().plugins,
+                    datalabels: makeDatalabels(9.5)
+                }
+            },
+            plugins:[ChartDataLabels]
+        });
+
+        document.getElementById('main-chart-text').textContent = TEXT[currentMetric];
+
+        // Update KPIs with slider year
+        const yr = YEARS[highlightIdx];
+        document.getElementById('year-label').textContent = yr;
+        document.getElementById('kpi-cap-w').textContent = D.cap.w[highlightIdx].toFixed(2) + '%';
+        document.getElementById('kpi-cap-c').textContent = D.cap.c[highlightIdx].toFixed(2) + '%';
+        document.getElementById('kpi-ren-w').textContent = D.ren.w[highlightIdx].toFixed(2) + '%';
+        document.getElementById('kpi-ren-c').textContent = D.ren.c[highlightIdx].toFixed(2) + '%';
+        document.getElementById('kpi-lp-w').textContent  = D.losses.w[highlightIdx].toFixed(2) + '%';
+        document.getElementById('kpi-lp-c').textContent  = D.losses.c[highlightIdx].toFixed(2) + '%';
+    }
+
+    document.getElementById('chart-selector').addEventListener('change', function() {
+        currentMetric = this.value;
+        buildMainChart();
+    });
+
+    document.getElementById('year-slider').addEventListener('input', function() {
+        highlightIdx = parseInt(this.value);
+        buildMainChart();
+    });
+
+    buildMainChart();
+
+    // ── GRÁFICO GENERACIÓN ───────────────────────────────────────────────────
+    new Chart(document.getElementById('generationChart').getContext('2d'), {
+        type:'bar',
+        data:{
+            labels: YEARS,
+            datasets:[
+                { label:'MUNDO', data: D.gen.w, backgroundColor: C_MUNDO, borderRadius:3 },
+                { label:'CSAM',  data: D.gen.c, backgroundColor: C_CSAM,  borderRadius:3 }
+            ]
+        },
+        options:{
+            ...commonBarOpts('% Crecimiento Anual'),
+            plugins:{ ...commonBarOpts().plugins, datalabels: makeDatalabels(9) }
+        },
+        plugins:[ChartDataLabels]
+    });
+
+    // ── GRÁFICOS RENOVABLES (últimos 5 años: 2020-2024, índices 6-10) ────────
+    function smallChart(canvasId, key) {
+        const slice5 = a => a.slice(6); // índices 6..10 = años 2020..2024
+        return new Chart(document.getElementById(canvasId).getContext('2d'), {
+            type:'bar',
+            data:{
+                labels: [2020,2021,2022,2023,2024],
+                datasets:[
+                    { label:'MUNDO', data: slice5(D[key].w), backgroundColor: C_MUNDO, borderRadius:3 },
+                    { label:'CSAM',  data: slice5(D[key].c), backgroundColor: C_CSAM,  borderRadius:3 }
+                ]
+            },
+            options:{
+                responsive:true, maintainAspectRatio:false,
+                scales:{
+                    x:{ grid:{display:false}, ticks:{font:{size:10}} },
+                    y:{ ticks:{ callback:v=>v+'%', font:{size:10} }, grid:{color:'rgba(0,0,0,.05)'} }
+                },
+                plugins:{
+                    legend:{ labels:{font:{size:10}} },
+                    tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${ctx.raw.toFixed(2)}%` } },
+                    datalabels: makeDatalabels(8.5)
+                }
+            },
+            plugins:[ChartDataLabels]
+        });
+    }
+
+    smallChart('solarChart',   'solar');
+    smallChart('windChart',    'wind');
+    smallChart('hydroChart',   'hydro');
+    smallChart('biomassChart', 'biomass');
+
+    // ── GRÁFICO PÉRDIDAS (línea) ─────────────────────────────────────────────
+    new Chart(document.getElementById('lossesChart').getContext('2d'), {
+        type:'line',
+        data:{
+            labels: YEARS,
+            datasets:[
+                {
+                    label:'MUNDO',
+                    data: D.losses.w,
+                    borderColor: C_MUNDO_B,
+                    backgroundColor:'rgba(65,105,225,0.08)',
+                    fill:true, tension:0.35, pointRadius:5, pointHoverRadius:7,
+                    borderWidth:2.5
+                },
+                {
+                    label:'CSAM',
+                    data: D.losses.c,
+                    borderColor: C_CSAM_B,
+                    backgroundColor:'rgba(255,140,0,0.08)',
+                    fill:true, tension:0.35, pointRadius:5, pointHoverRadius:7,
+                    borderWidth:2.5
+                }
+            ]
+        },
+        options:{
+            responsive:true, maintainAspectRatio:false,
+            scales:{
+                x:{ grid:{display:false}, ticks:{font:{size:11}} },
+                y:{
+                    title:{display:true, text:'% Pérdidas / Generación', font:{size:11}},
+                    ticks:{ callback:v=>v+'%', font:{size:11} },
+                    grid:{color:'rgba(0,0,0,.06)'}
+                }
+            },
+            plugins:{
+                legend:{ labels:{font:{size:12}} },
+                tooltip:{ callbacks:{ label: ctx=>`${ctx.dataset.label}: ${ctx.raw.toFixed(2)}%` } },
+                datalabels:{
+                    align:'top', anchor:'center',
+                    font:{size:9, weight:'600'},
+                    color: ctx => ctx.dataset.label==='MUNDO' ? '#4169E1' : '#FF8C00',
+                    formatter: v => v.toFixed(2)+'%'
+                }
+            }
+        },
+        plugins:[ChartDataLabels]
+    });
+
+    // ── NOTICIAS ─────────────────────────────────────────────────────────────
+    const TRENDS = [
+        {
+            num: '1',
+            icon: '⚡',
+            title: 'Dominio absoluto de la dupla Solar + Almacenamiento (BESS)',
+            color: { bg:'#EFF6FF', border:'#BFDBFE', head:'#4169E1', dot:'#4169E1' },
+            summary: 'La "flexibilidad" domina la agenda y las inversiones. La expansión de capacidad de generación es el tema más recurrente: Solar FV (130 menciones) y BESS (113 menciones) lideran tecnológicamente.',
+            bullets: [
+                'Guatemala · PEG-5: licitación histórica dominada por proyectos solar + almacenamiento (1.242 MW ofertados).',
+                'Chile: aceleración de megaproyectos híbridos multimillonarios — Central Oasis, Delva y Malgarida.',
+                'Brasil y México: regulación y mercado mayorista ajustándose a contrarreloj para integrar baterías competitivamente en próximas subastas de capacidad.'
+            ]
+        },
+        {
+            num: '2',
+            icon: '🏠',
+            title: 'Autoconsumo y Generación Distribuida como modelo estrella',
+            color: { bg:'#FFF7ED', border:'#FED7AA', head:'#C2410C', dot:'#FF8C00' },
+            summary: 'El Autoconsumo / Generación Distribuida es el modelo de negocio más mencionado del mes (34,4% dentro de su categoría). Altos costos tarifarios y restricciones de redes impulsan a industrias y hogares a generar su propia energía.',
+            bullets: [
+                'Bolivia: promulgación del Decreto 5549 habilitando generación distribuida de mediana escala para privados.',
+                'Chile: avance de normativas de precio estabilizado (PMGD) para incentivar baterías en el segmento.',
+                'Perú: industrias manufactureras instalan infraestructura FV en techos para esquivar la red nacional.'
+            ]
+        },
+        {
+            num: '3',
+            icon: '🖥️',
+            title: 'Data Centers: el nuevo gran motor de la demanda eléctrica',
+            color: { bg:'#F5F3FF', border:'#DDD6FE', head:'#6D28D9', dot:'#7C3AED' },
+            summary: 'La Inteligencia Artificial y la nube (AWS, Google, Microsoft) están alterando la planificación eléctrica regional con una demanda firme y limpia 24/7.',
+            bullets: [
+                'Brasil: los data centers encabezan las solicitudes de acceso a la red de alta tensión del ONS, superando a la industria tradicional.',
+                'Los grandes holdings integran verticalmente carteras de energía renovable con infraestructura digital para asegurar suministro firme y limpio.'
+            ]
+        },
+        {
+            num: '4',
+            icon: '🛡️',
+            title: 'Blindaje, Digitalización y crisis de las Distribuidoras',
+            color: { bg:'#F0FDF4', border:'#BBF7D0', head:'#15803D', dot:'#16A34A' },
+            summary: 'La modernización de la red dejó de ser opcional. Reguladores con multas históricas y empresas respondiendo con IA, gemelos digitales y redes inteligentes.',
+            bullets: [
+                'Chile: multas por más de $29.000 millones por el megapagón de febrero 2025.',
+                'Brasil: multa a Enel de más de R$95 millones, con amenaza de caducidad de concesión en São Paulo.',
+                'Como respuesta: implementación de IA, estandarización de Gemelos Digitales, inversión en telemedición y redes inteligentes para evitar multas y mitigar curtailment.'
+            ]
+        },
+        {
+            num: '5',
+            icon: '🌧️',
+            title: 'El clima extremo como factor operativo permanente',
+            color: { bg:'#FFF1F2', border:'#FECDD3', head:'#BE123C', dot:'#FF0000' },
+            summary: 'El sector eléctrico está bajo el asedio directo del clima extremo, con efectos opuestos según la subregión.',
+            bullets: [
+                'Colombia: lluvias torrenciales atípicas forzaron al gobierno a intervenir el mercado para bajar precios ante embalses llenos y asistir comunidades inundadas.',
+                'Perú: El Niño dejó víctimas mortales y destrucción de infraestructura eléctrica.',
+                'Brasil: afluencias de lluvia por debajo de la media histórica en reservorios del Sudeste/Centro-Oeste.',
+                'Ecuador: monitoreo milimétrico del embalse Mazar y dependencia de térmicas para evitar apagones.'
+            ]
+        }
+    ];
+
+    const container = document.getElementById('news-container');
+    TRENDS.forEach(t => {
+        const block = document.createElement('div');
+        block.style.cssText = `background:${t.color.bg};border:1px solid ${t.color.border};border-radius:0.75rem;padding:1.5rem;margin-bottom:0;`;
+        block.innerHTML = `
+            <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.6rem;">
+                <span style="font-size:1.25rem;">${t.icon}</span>
+                <span style="font-size:.7rem;font-weight:700;background:${t.color.head};color:#fff;padding:2px 10px;border-radius:9999px;">TENDENCIA ${t.num}</span>
+                <h4 style="font-size:.95rem;font-weight:700;color:${t.color.head};margin:0;">${t.title}</h4>
+            </div>
+            <p style="font-size:.875rem;color:#374151;margin-bottom:.75rem;line-height:1.6;">${t.summary}</p>
+            <ul style="list-style:none;padding:0;margin:0;">
+                ${t.bullets.map(b=>`
+                <li style="display:flex;align-items:flex-start;gap:.6rem;margin-bottom:.45rem;">
+                    <span style="width:7px;height:7px;border-radius:50%;background:${t.color.dot};flex-shrink:0;margin-top:.42rem;"></span>
+                    <span style="font-size:.825rem;color:#4B5563;line-height:1.55;">${b}</span>
+                </li>`).join('')}
+            </ul>`;
+        container.appendChild(block);
+    });
+
+    // ── MODAL ────────────────────────────────────────────────────────────────
+    const MODAL_DATA = {
+        solar:   { label:'☀️ Energía Solar',       key:'solar'   },
+        wind:    { label:'💨 Energía Eólica',       key:'wind'    },
+        hydro:   { label:'💧 Energía Hidroeléctrica', key:'hydro' },
+        biomass: { label:'🌿 Biomasa y Residuos',   key:'biomass' }
+    };
+
+    window.openModal = function(type) {
+        const m = MODAL_DATA[type];
+        const d = D[m.key];
+        // Last 5 = indices 6..10 = years 2020-2024
+        const slice5 = a => a.slice(6);
+        const sw = slice5(d.w);
+        const sc = slice5(d.c);
+
+        document.getElementById('modal-title').textContent = m.label;
+        document.getElementById('modal-text').textContent  = TEXT[m.key];
+
+        const fmt = v => v !== null ? `<td class="px-3 py-2 text-right ${v<0?'text-red-600 font-semibold':'text-gray-600'}">${v.toFixed(2)}%</td>` : '<td class="px-3 py-2 text-right text-gray-400">—</td>';
+
+        document.getElementById('modal-table-body').innerHTML = `
+            <tr>
+                <td class="px-3 py-2 font-semibold" style="color:#4169E1">MUNDO</td>
+                ${sw.map(fmt).join('')}
+            </tr>
+            <tr>
+                <td class="px-3 py-2 font-semibold" style="color:#FF8C00">CSAM</td>
+                ${sc.map(fmt).join('')}
+            </tr>`;
+
+        document.getElementById('details-modal').classList.remove('hidden');
+        document.getElementById('details-modal').classList.add('flex');
+    };
+
+    window.closeModal = function() {
+        document.getElementById('details-modal').classList.add('hidden');
+        document.getElementById('details-modal').classList.remove('flex');
+    };
+
+});
+</script>
+</body>
+</html>
